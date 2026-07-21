@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital@0;1&display=swap');
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -5,20 +7,28 @@
 }
 
 :root {
-  --bg: #1a1a2e;
-  --bg-card: #16213e;
-  --bg-input: #0f3460;
-  --accent: #e94560;
-  --accent-hover: #ff6b81;
+  --bg: #F5F0EB;
+  --bg-card: #FFFFFF;
+  --bg-input: #EDE6DC;
+  --primary: #2D5A3D;
+  --primary-hover: #23482F;
+  --primary-light: rgba(45,90,61,.12);
+  --accent: #C4623A;
+  --accent-hover: #A5502E;
+  --accent-light: rgba(196,98,58,.12);
   --green: #2ecc71;
-  --green-dim: #1a9c54;
-  --yellow: #f1c40f;
-  --text: #eee;
-  --text-dim: #999;
+  --green-dim: #27ae60;
+  --green-light: rgba(46,204,113,.15);
+  --yellow: #d4a017;
+  --yellow-light: rgba(212,160,23,.15);
+  --text: #1A1A1A;
+  --text-dim: #6B6258;
+  --border: rgba(0,0,0,.08);
   --radius: 12px;
   --radius-sm: 8px;
-  --shadow: 0 4px 20px rgba(0,0,0,.3);
-  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --shadow: 0 2px 12px rgba(0,0,0,.08);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Merriweather', Georgia, serif;
 }
 
 html, body {
@@ -43,7 +53,7 @@ html, body {
   flex-shrink: 0;
   padding: 16px 20px 12px;
   background: var(--bg);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -53,7 +63,8 @@ html, body {
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: -.3px;
-  color: var(--text);
+  color: var(--primary);
+  font-family: var(--font-serif);
 }
 
 #content {
@@ -75,7 +86,7 @@ html, body {
   flex-shrink: 0;
   display: flex;
   background: var(--bg-card);
-  border-top: 1px solid rgba(255,255,255,.06);
+  border-top: 1px solid var(--border);
   padding: 6px 0 env(safe-area-inset-bottom, 6px) 0;
 }
 
@@ -135,7 +146,7 @@ html, body {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 8px;
-  color: var(--text);
+  color: var(--primary);
 }
 
 .badge {
@@ -147,17 +158,17 @@ html, body {
 }
 
 .badge-green {
-  background: rgba(46,204,113,.2);
-  color: var(--green);
+  background: var(--green-light);
+  color: var(--green-dim);
 }
 
 .badge-yellow {
-  background: rgba(241,196,15,.2);
+  background: var(--yellow-light);
   color: var(--yellow);
 }
 
 .badge-red {
-  background: rgba(233,69,96,.2);
+  background: var(--accent-light);
   color: var(--accent);
 }
 
@@ -196,16 +207,16 @@ html, body {
 }
 
 .btn-secondary:hover {
-  background: #1a4a7a;
+  background: #ddd6cc;
 }
 
 .btn-green {
-  background: var(--green);
+  background: var(--primary);
   color: #fff;
 }
 
 .btn-green:hover {
-  background: var(--green-dim);
+  background: var(--primary-hover);
 }
 
 .btn-sm {
@@ -244,7 +255,7 @@ html, body {
   width: 100%;
   padding: 10px 14px;
   background: var(--bg-input);
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text);
   font-size: .95rem;
@@ -306,9 +317,9 @@ html, body {
 }
 
 .filter-chip.active {
-  background: var(--accent);
+  background: var(--primary);
   color: #fff;
-  border-color: var(--accent);
+  border-color: var(--primary);
 }
 
 .exercise-card {
@@ -341,6 +352,7 @@ html, body {
   font-size: .95rem;
   font-weight: 600;
   margin-bottom: 4px;
+  color: var(--text);
 }
 
 .exercise-info p {
@@ -375,6 +387,7 @@ html, body {
   letter-spacing: 2px;
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  color: var(--text);
 }
 
 .timer-phase {
@@ -387,13 +400,13 @@ html, body {
 }
 
 .timer-phase.work {
-  background: rgba(233,69,96,.2);
+  background: var(--accent-light);
   color: var(--accent);
 }
 
 .timer-phase.rest {
-  background: rgba(46,204,113,.2);
-  color: var(--green);
+  background: var(--green-light);
+  color: var(--green-dim);
 }
 
 .timer-controls {
@@ -435,14 +448,14 @@ html, body {
 }
 
 .timer-progress-bar.rest {
-  background: var(--green);
+  background: var(--primary);
 }
 
 /* ========== DIETA ========== */
 .categoria-label {
   font-size: .85rem;
   font-weight: 600;
-  color: var(--text-dim);
+  color: var(--primary);
   margin: 12px 0 8px;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -462,7 +475,7 @@ html, body {
   padding: 8px 14px;
   border-radius: 20px;
   background: var(--bg-input);
-  border: 1px solid rgba(255,255,255,.06);
+  border: 1px solid var(--border);
   color: var(--text);
   font-size: .82rem;
   font-weight: 500;
@@ -473,8 +486,8 @@ html, body {
 }
 
 .alimento-chip.selected {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--primary);
+  border-color: var(--primary);
   color: #fff;
 }
 
@@ -486,6 +499,7 @@ html, body {
   font-size: .95rem;
   font-weight: 600;
   margin-bottom: 4px;
+  color: var(--text);
 }
 
 .recipe-card .recipe-meta {
@@ -518,12 +532,12 @@ html, body {
 }
 
 .recipe-match.full {
-  background: rgba(46,204,113,.2);
-  color: var(--green);
+  background: var(--green-light);
+  color: var(--green-dim);
 }
 
 .recipe-match.partial {
-  background: rgba(241,196,15,.2);
+  background: var(--yellow-light);
   color: var(--yellow);
 }
 
@@ -547,7 +561,7 @@ html, body {
   color: var(--accent);
 }
 
-.stat-green { color: var(--green) !important; }
+.stat-green { color: var(--green-dim) !important; }
 .stat-yellow { color: var(--yellow) !important; }
 .stat-red { color: var(--accent) !important; }
 
@@ -559,7 +573,7 @@ html, body {
 
 .workout-item {
   padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid var(--border);
 }
 
 .workout-item:last-child {
@@ -602,7 +616,7 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,.7);
+  background: rgba(0,0,0,.5);
   display: none;
   align-items: flex-end;
   justify-content: center;
@@ -633,6 +647,8 @@ html, body {
 .modal-content h2 {
   font-size: 1.1rem;
   margin-bottom: 12px;
+  color: var(--primary);
+  font-family: var(--font-serif);
 }
 
 .modal-close {
@@ -649,8 +665,8 @@ html, body {
 /* ========== RESPONSIVE ========== */
 @media (min-width: 480px) {
   #app {
-    border-left: 1px solid rgba(255,255,255,.06);
-    border-right: 1px solid rgba(255,255,255,.06);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
   }
 }
 
