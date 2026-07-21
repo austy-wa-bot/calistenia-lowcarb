@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="description" content="App de Calistenia e Dieta Low-Carb">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <title>Calistenia Low-Carb</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <h1 id="page-title">Calistenia Low-Carb</h1>
+    </header>
+
+    <main id="content"></main>
+
+    <nav id="bottom-nav">
+      <button class="nav-btn active" data-page="exercicios" aria-label="Exercícios">
+        <span class="nav-icon">🏋️</span>
+        <span class="nav-label">Exercícios</span>
+      </button>
+      <button class="nav-btn" data-page="timer" aria-label="Timer">
+        <span class="nav-icon">⏱️</span>
+        <span class="nav-label">Timer</span>
+      </button>
+      <button class="nav-btn" data-page="dieta" aria-label="Dieta">
+        <span class="nav-icon">🥗</span>
+        <span class="nav-label">Dieta</span>
+      </button>
+      <button class="nav-btn" data-page="progresso" aria-label="Progresso">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Progresso</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="dados/exercicios.js"></script>
+  <script src="dados/alimentos.js"></script>
+  <script src="dados/receitas.js"></script>
+  <script src="paginas/exercicios.js"></script>
+  <script src="paginas/timer.js"></script>
+  <script src="paginas/dieta.js"></script>
+  <script src="paginas/progresso.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
