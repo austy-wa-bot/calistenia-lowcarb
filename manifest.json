@@ -2,21 +2,27 @@
   "name": "Calistenia Low-Carb",
   "short_name": "Calistenia LC",
   "description": "App de calistenia e dieta low-carb",
-  "start_url": "/calistenia-lowcarb/?page=exercicios",
+  "start_url": "/calistenia-lowcarb/?page=inicio",
   "display": "standalone",
   "background_color": "#1a1a2e",
   "theme_color": "#1a1a2e",
   "orientation": "portrait",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "id": "/calistenia-lowcarb/",
+  "scope": "/calistenia-lowcarb/",
+  "categories": ["health", "fitness", "lifestyle"],
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Ctext y='.9em' font-size='160'%3E💪%3C/text%3E%3C/svg%3E",
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ctext y='.9em' font-size='420'%3E💪%3C/text%3E%3C/svg%3E",
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

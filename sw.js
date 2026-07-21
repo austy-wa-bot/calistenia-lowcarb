@@ -10,11 +10,15 @@ self.addEventListener('install', (e) => {
         'dados/exercicios.js',
         'dados/alimentos.js',
         'dados/receitas.js',
+        'paginas/inicio.js',
         'paginas/exercicios.js',
         'paginas/timer.js',
         'paginas/dieta.js',
         'paginas/progresso.js',
-        'manifest.json'
+        'manifest.json',
+        'icons/icon-192x192.png',
+        'icons/icon-512x512.png',
+        'icons/icon-180x180.png'
       ]);
     })
   );

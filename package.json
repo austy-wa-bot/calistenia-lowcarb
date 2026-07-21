@@ -1,0 +1,23 @@
+{
+  "name": "calistenia-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "icons": "node generate-icons.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/austy-wa-bot/calistenia-lowcarb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/austy-wa-bot/calistenia-lowcarb/issues"
+  },
+  "homepage": "https://github.com/austy-wa-bot/calistenia-lowcarb#readme",
+  "dependencies": {
+    "sharp": "^0.35.3"
+  }
+}
