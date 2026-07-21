@@ -37,6 +37,13 @@
       "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
     },
     {
+      "name": "Programa",
+      "short_name": "Programa",
+      "description": "Treino guiado de 4 semanas",
+      "url": "/calistenia-lowcarb/?page=programa",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
       "name": "Exercícios",
       "short_name": "Exercícios",
       "description": "Ver catálogo de exercícios",
