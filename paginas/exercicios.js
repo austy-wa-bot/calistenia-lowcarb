@@ -3,7 +3,7 @@ function renderExercicios() {
   const resultados = filtrarExercicios(filtros);
 
   return `
-    <div class="page active" id="page-exercicios">
+    <div class="page" id="page-exercicios">
       <div class="filter-bar" id="filtro-nivel">
         <button class="filter-chip ${!filtros.nivel ? 'active' : ''}" data-value="">Todos</button>
         <button class="filter-chip ${filtros.nivel === 'iniciante' ? 'active' : ''}" data-value="iniciante">Iniciante</button>

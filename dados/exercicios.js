@@ -32,7 +32,7 @@ const EXERCICIOS = [
     nivel: 'intermediario',
     equipamento: 'cadeira',
     musculo: 'pernas',
-    video: 'https://www.youtube.com/embed/XTHRfXMsNQs',
+    video: 'https://www.youtube.com/embed/bwhl_9jN_3o',
     descricao: 'Um pé apoiado atrás em uma cadeira. Desça com a perna da frente.'
   },
   {
@@ -41,7 +41,7 @@ const EXERCICIOS = [
     nivel: 'iniciante',
     equipamento: 'nenhum',
     musculo: 'pernas',
-    video: 'https://www.youtube.com/embed/qVQd8pCUG14',
+    video: 'https://www.youtube.com/embed/QOVaHwm-Q6U',
     descricao: 'Passo largo à frente, desça até o joelho de trás quase tocar o chão.'
   },
   {
@@ -50,7 +50,7 @@ const EXERCICIOS = [
     nivel: 'iniciante',
     equipamento: 'nenhum',
     musculo: 'gluteos',
-    video: 'https://www.youtube.com/embed/nhN1l7SSyVA',
+    video: 'https://www.youtube.com/embed/wPM8icPu6H8',
     descricao: 'Deitado, joelhos dobrados, eleve o quadril contraindo glúteos.'
   },
   {
@@ -59,7 +59,7 @@ const EXERCICIOS = [
     nivel: 'iniciante',
     equipamento: 'nenhum',
     musculo: 'core',
-    video: 'https://www.youtube.com/embed/9B6ZgID4n80',
+    video: 'https://www.youtube.com/embed/ASdvN_XEl_c',
     descricao: 'Antebraços no chão, corpo reto, contraia o abdômen.'
   },
   {
@@ -68,7 +68,7 @@ const EXERCICIOS = [
     nivel: 'intermediario',
     equipamento: 'cadeira',
     musculo: 'braços',
-    video: 'https://www.youtube.com/embed/g_4WSm5TtpY',
+    video: 'https://www.youtube.com/embed/KwnAzS-oN6c',
     descricao: 'Mãos apoiadas na borda da cadeira, desça o quadril e volte.'
   },
   {
@@ -77,7 +77,7 @@ const EXERCICIOS = [
     nivel: 'iniciante',
     equipamento: 'nenhum',
     musculo: 'pernas',
-    video: 'https://www.youtube.com/embed/KFtC3I5nWbg',
+    video: 'https://www.youtube.com/embed/k8ipHzKeAkQ',
     descricao: 'Em pé, eleve os calcanhares ficando na ponta dos pés.'
   },
   {
@@ -86,7 +86,7 @@ const EXERCICIOS = [
     nivel: 'intermediario',
     equipamento: 'cadeira',
     musculo: 'costas',
-    video: 'https://www.youtube.com/embed/6AlTNfkYpKI',
+    video: 'https://www.youtube.com/embed/OYUxXMGVuuU',
     descricao: 'Deite-se sob uma cadeira, segure as bordas e puxe o peito em direção à borda.'
   },
   {
@@ -104,7 +104,7 @@ const EXERCICIOS = [
     nivel: 'avancado',
     equipamento: 'cadeira',
     musculo: 'pernas',
-    video: 'https://www.youtube.com/embed/vq5fLT4i-Vk',
+    video: 'https://www.youtube.com/embed/vq5-vdgJc0I',
     descricao: 'Agachamento em uma perna só. Use uma cadeira como apoio se necessário.'
   },
   {
@@ -131,7 +131,7 @@ const EXERCICIOS = [
     nivel: 'intermediario',
     equipamento: 'nenhum',
     musculo: 'core',
-    video: 'https://www.youtube.com/embed/1we3h9mDkEU',
+    video: 'https://www.youtube.com/embed/wpRI3xBhJmo',
     descricao: 'Deitado, alterne levando cotovelo ao joelho oposto em movimento de pedalada.'
   },
   {
@@ -149,7 +149,7 @@ const EXERCICIOS = [
     nivel: 'iniciante',
     equipamento: 'cadeira',
     musculo: 'pernas',
-    video: 'https://www.youtube.com/embed/Dp-OXh7TssY',
+    video: 'https://www.youtube.com/embed/vLgNjXucUs0',
     descricao: 'Suba e desça de uma cadeira alternando as pernas.'
   },
   {
@@ -158,7 +158,7 @@ const EXERCICIOS = [
     nivel: 'iniciante',
     equipamento: 'nenhum',
     musculo: 'costas',
-    video: 'https://www.youtube.com/embed/z6PJCMk3Q5A',
+    video: 'https://www.youtube.com/embed/zbCHSAYz11A',
     descricao: 'Deitado de barriga, eleve braços e pernas simultaneamente.'
   }
 ];

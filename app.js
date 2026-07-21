@@ -62,6 +62,9 @@ function renderPage(pageId) {
   title.textContent = PAGE_TITLES[pageId] || 'Calistenia Low-Carb';
   content.innerHTML = page.render();
 
+  const pageDiv = content.querySelector('.page');
+  if (pageDiv) pageDiv.classList.add('active');
+
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.page === pageId);
   });
