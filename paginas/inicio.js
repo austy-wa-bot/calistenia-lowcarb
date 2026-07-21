@@ -3,37 +3,9 @@ function renderInicio() {
   const pesoHistorico = AppState.get('pesoHistorico') || [];
   const treinos = AppState.get('treinos') || [];
 
-  if (!perfil.nome) {
-    return `
-      <div class="page" id="page-inicio">
-        <div class="card" style="text-align:center;padding:32px 20px">
-          <div style="font-size:3rem;margin-bottom:12px">💪</div>
-          <h2 style="font-size:1.3rem;margin-bottom:8px">Bem-vindo!</h2>
-          <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:20px;line-height:1.5">
-            Preencha seus dados para começar. Vamos acompanhar sua evolução juntos!
-          </p>
-          <div class="form-group">
-            <label>Seu nome</label>
-            <input type="text" id="input-nome" placeholder="Ex: João" style="text-align:center">
-          </div>
-          <div class="form-row" style="margin-bottom:12px">
-            <div class="form-group">
-              <label>Peso (kg)</label>
-              <input type="number" id="input-peso" step="0.1" min="20" max="300" placeholder="Ex: 75" style="text-align:center">
-            </div>
-            <div class="form-group">
-              <label>Altura (cm)</label>
-              <input type="number" id="input-altura" step="1" min="100" max="250" placeholder="Ex: 175" style="text-align:center">
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom:20px">
-            <label>Peso alvo (kg)</label>
-            <input type="number" id="input-peso-alvo" step="0.1" min="20" max="300" placeholder="Ex: 70" style="text-align:center">
-          </div>
-          <button class="btn btn-primary btn-block" id="onboard-salvar">🚀 Começar</button>
-        </div>
-      </div>
-    `;
+  const onboardingCompleto = AppState.get('onboardingCompleto');
+  if (!onboardingCompleto) {
+    return renderOnboarding();
   }
 
   const hora = new Date().getHours();
@@ -191,6 +163,294 @@ function dicaDoDia() {
   const hoje = new Date();
   const diaDoAno = Math.floor((hoje - new Date(hoje.getFullYear(), 0, 0)) / 86400000);
   return DICAS_NUNO_COBRA[diaDoAno % DICAS_NUNO_COBRA.length];
+}
+
+function renderOnboarding() {
+  const step = AppState.get('onboardingStep') || 0;
+  const total = 8;
+  const pct = ((step + 1) / total) * 100;
+
+  const steps = [
+    { titulo: 'Bem-vindo', icone: '💪' },
+    { titulo: 'Expectativas', icone: '🎯' },
+    { titulo: 'Despensa', icone: '🥗' },
+    { titulo: 'Primeiro Treino', icone: '🏋️' },
+    { titulo: 'Qualidade do Sono', icone: '😴' },
+    { titulo: 'Seus Dados', icone: '📝' },
+    { titulo: 'Primeira Refeição', icone: '🍳' },
+    { titulo: 'Próximo Passo', icone: '🚀' },
+  ];
+
+  const bar = `
+    <div style="margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--text-dim);margin-bottom:4px">
+        <span>${steps[step].icone} ${steps[step].titulo}</span>
+        <span>${step + 1}/${total}</span>
+      </div>
+      <div style="height:4px;background:var(--bg-input);border-radius:2px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:var(--green);border-radius:2px;transition:width .3s"></div>
+      </div>
+    </div>
+  `;
+
+  let body = '';
+  let nextLabel = 'Próximo';
+  let showNext = true;
+  let showBack = step > 0;
+
+  switch (step) {
+    case 0: {
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3.5rem;margin-bottom:12px">💪</div>
+          <h2 style="font-size:1.4rem;margin-bottom:8px">Bem-vindo ao CicloFit!</h2>
+          <p style="font-size:.85rem;color:var(--text-dim);line-height:1.6;margin-bottom:6px">
+            Seu método completo para transformar corpo e mente.
+          </p>
+          <p style="font-size:.82rem;color:var(--text-dim);line-height:1.5">
+            Vamos te guiar por <strong>${total} passos</strong> rápidos para personalizar sua jornada.
+          </p>
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;text-align:left">
+            <div style="font-size:.85rem">✅ Calistenia + Jejum Intermitente</div>
+            <div style="font-size:.85rem">✅ Dieta Low-Carb orientada</div>
+            <div style="font-size:.85rem">✅ Timer Tabata integrado</div>
+            <div style="font-size:.85rem">✅ Metodologia Nuno Cobra</div>
+          </div>
+        </div>
+      `;
+      break;
+    }
+    case 1: {
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">🎯</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">Nossas Expectativas</h2>
+          <p style="font-size:.85rem;color:var(--text-dim);line-height:1.5;margin-bottom:16px">
+            O CicloFit funciona com consistência, não com intensidade máxima.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:12px;text-align:left">
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.9rem">📅 3× por semana</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">Segunda, Quarta e Sexta — ou sua melhor agenda</div>
+            </div>
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.9rem">⏱ 12-20 minutos</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">Aquecimento + Tabata + Desaquecimento</div>
+            </div>
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.9rem">🥗 Low-Carb sem radicalismo</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">Priorize proteína e gordura boa, sem neurose</div>
+            </div>
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.9rem">😴 Sono como pilar #1</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">8h de sono regulam seus hormônios</div>
+            </div>
+          </div>
+        </div>
+      `;
+      break;
+    }
+    case 2: {
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">🥗</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">O que tem na despensa?</h2>
+          <p style="font-size:.82rem;color:var(--text-dim);line-height:1.5;margin-bottom:12px">
+            Marque os alimentos que você já tem ou consome regularmente.
+          </p>
+          <div id="onboard-pantry-list">
+            ${CATEGORIAS_ALIMENTOS.map((cat, ci) => `
+              <details class="pantry-group" ${ci < 3 ? 'open' : ''}>
+                <summary style="font-size:.85rem;font-weight:600;padding:8px 0;cursor:pointer;color:var(--text)">${cat.nome}</summary>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;padding:4px 0 8px">
+                  ${cat.itens.map(item => {
+                    const sel = AppState.get('alimentosSelecionados') || [];
+                    const checked = sel.includes(item.id) ? 'checked' : '';
+                    return `
+                      <label class="chip-checkable ${checked}" data-id="${item.id}">
+                        <input type="checkbox" ${checked} style="display:none">
+                        <span>${item.nome.split(' - ').pop()}</span>
+                      </label>
+                    `;
+                  }).join('')}
+                </div>
+              </details>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      break;
+    }
+    case 3: {
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">🏋️</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">Primeiro Treino</h2>
+          <p style="font-size:.82rem;color:var(--text-dim);line-height:1.5;margin-bottom:16px">
+            Que tal fazer um treino leve agora? Marque como concluído depois.
+          </p>
+          <div class="card" style="margin:0;text-align:left">
+            <div style="font-weight:600;font-size:.9rem;margin-bottom:8px">🔥 Aquecimento (5 min)</div>
+            <div style="font-size:.85rem;color:var(--text-dim);line-height:1.8">
+              <div>1. Polichinelo — 30s</div>
+              <div>2. Rotação de ombros — 30s</div>
+              <div>3. Agachamento sem peso — 30s</div>
+              <div>4. Alongamento de braços — 30s</div>
+              <div>5. Polichinelo — 30s</div>
+            </div>
+          </div>
+          <label class="chip-checkable" id="onboard-treino-done" style="margin-top:16px;display:inline-flex;font-size:.9rem;padding:8px 20px">
+            <input type="checkbox" id="onboard-treino-check" ${AppState.get('onboardTreinoDone') ? 'checked' : ''} style="margin-right:8px">
+            ✅ Concluí o aquecimento
+          </label>
+        </div>
+      `;
+      break;
+    }
+    case 4: {
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">😴</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">Qualidade do Sono</h2>
+          <p style="font-size:.82rem;color:var(--text-dim);line-height:1.5;margin-bottom:16px">
+            O sono é o pilar mais importante do método. Defina sua meta de horário para dormir.
+          </p>
+          <div class="form-group" style="max-width:200px;margin:0 auto">
+            <label>Horário que você vai deitar</label>
+            <select id="onboard-sono-horario" style="text-align:center;font-size:1rem">
+              ${['21:00','21:30','22:00','22:30','23:00','23:30'].map(h =>
+                `<option value="${h}" ${(AppState.get('onboardSonoMeta') || '22:00') === h ? 'selected' : ''}>${h}</option>`
+              ).join('')}
+            </select>
+          </div>
+          <div style="margin-top:16px;font-size:.82rem;color:var(--text-dim)">
+            💡 Ideal: deitar até 22h e acordar sem despertador
+          </div>
+        </div>
+      `;
+      break;
+    }
+    case 5: {
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">📝</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">Seus Dados</h2>
+          <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:16px;line-height:1.5">
+            Vamos acompanhar sua evolução juntos!
+          </p>
+          <div class="form-group">
+            <label>Seu nome</label>
+            <input type="text" id="input-nome" value="${AppState.get('perfil')?.nome || ''}" placeholder="Ex: João" style="text-align:center">
+          </div>
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group">
+              <label>Peso (kg)</label>
+              <input type="number" id="input-peso" step="0.1" min="20" max="300" value="${AppState.get('perfil')?.peso || ''}" placeholder="Ex: 75" style="text-align:center">
+            </div>
+            <div class="form-group">
+              <label>Altura (cm)</label>
+              <input type="number" id="input-altura" step="1" min="100" max="250" value="${AppState.get('perfil')?.altura || ''}" placeholder="Ex: 175" style="text-align:center">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px">
+            <label>Peso alvo (kg)</label>
+            <input type="number" id="input-peso-alvo" step="0.1" min="20" max="300" value="${AppState.get('perfil')?.pesoAlvo || ''}" placeholder="Ex: 70" style="text-align:center">
+          </div>
+        </div>
+      `;
+      break;
+    }
+    case 6: {
+      const selecionados = AppState.get('alimentosSelecionados') || [];
+      let sugestao = null;
+      let comIngredientes = 0;
+      if (selecionados.length > 0) {
+        const candidatas = RECEITAS.filter(r =>
+          r.ingredientes.some(i => selecionados.includes(i))
+        );
+        if (candidatas.length > 0) {
+          candidatas.sort((a, b) => {
+            const aMatch = a.ingredientes.filter(i => selecionados.includes(i)).length;
+            const bMatch = b.ingredientes.filter(i => selecionados.includes(i)).length;
+            return bMatch - aMatch;
+          });
+          sugestao = candidatas[0];
+          comIngredientes = sugestao.ingredientes.filter(i => selecionados.includes(i)).length;
+        }
+      }
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">🍳</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">Primeira Refeição</h2>
+          <p style="font-size:.82rem;color:var(--text-dim);line-height:1.5;margin-bottom:16px">
+            Com base na sua despensa, sugerimos esta receita:
+          </p>
+          ${sugestao ? `
+            <div class="card recipe-card" style="margin:0;text-align:left;cursor:default" data-recipe-id="${sugestao.id}">
+              <div style="font-weight:600;font-size:.95rem">${sugestao.nome}</div>
+              <div style="font-size:.75rem;color:var(--text-dim);margin:4px 0 8px">⏱ ${sugestao.tempo} · ${sugestao.dificuldade}</div>
+              <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:6px">🧂 Ingredientes que você tem: ${comIngredientes}/${sugestao.ingredientes.length}</div>
+              <div style="font-size:.8rem;line-height:1.6;color:var(--text);white-space:pre-line">${sugestao.instrucoes}</div>
+            </div>
+          ` : `
+            <div style="padding:20px;color:var(--text-dim);font-size:.85rem">
+              Nenhum ingrediente marcado na despensa. Você pode explorar receitas depois na aba Dieta!
+            </div>
+          `}
+        </div>
+      `;
+      nextLabel = 'Último';
+      break;
+    }
+    case 7: {
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">🚀</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">Pronto para Começar!</h2>
+          <p style="font-size:.85rem;color:var(--text-dim);line-height:1.6;margin-bottom:16px">
+            Amanhã é o primeiro dia da sua nova rotina. Aqui vai seu plano:
+          </p>
+          <div style="display:flex;flex-direction:column;gap:10px;text-align:left">
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.85rem">🌅 Ao acordar</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">Jejum de 16h · Água com limão</div>
+            </div>
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.85rem">🏋️ Primeira atividade</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">Aquecimento de 5 min + alongamento</div>
+            </div>
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.85rem">🥗 Primeira refeição (12h)</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">Café da manhã low-carb — veja a aba Dieta</div>
+            </div>
+            <div class="card" style="padding:12px 16px;margin:0">
+              <div style="font-weight:600;font-size:.85rem">😴 Meta de sono</div>
+              <div style="font-size:.8rem;color:var(--text-dim)">Deitar até ${AppState.get('onboardSonoMeta') || '22:00'}</div>
+            </div>
+          </div>
+          <div style="margin-top:20px;font-size:.82rem;color:var(--text-dim)">
+            💡 Lembre-se: consistência > intensidade. Você consegue!
+          </div>
+        </div>
+      `;
+      nextLabel = '✅ Concluir';
+      showBack = true;
+      break;
+    }
+  }
+
+  return `
+    <div class="page" id="page-inicio">
+      <div class="card" style="padding:24px 20px">
+        ${bar}
+        ${body}
+        <div style="display:flex;gap:10px;margin-top:20px;justify-content:${showBack ? 'space-between' : 'center'}">
+          ${showBack ? '<button class="btn btn-secondary" id="onboard-back" style="flex:1">← Voltar</button>' : ''}
+          <button class="btn btn-primary" id="onboard-next" style="flex:${showBack ? '2' : '1'};max-width:${showBack ? 'none' : '280px'}">${nextLabel} →</button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function calcularPerdaSemanal(historico) {

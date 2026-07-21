@@ -162,16 +162,60 @@ function setupGlobalListeners() {
       AppState.notify();
     }
 
-    if (target.id === 'onboard-salvar') {
-      const nome = document.getElementById('input-nome')?.value.trim();
-      const peso = parseFloat(document.getElementById('input-peso')?.value);
-      const altura = parseFloat(document.getElementById('input-altura')?.value);
-      const pesoAlvo = parseFloat(document.getElementById('input-peso-alvo')?.value);
-      if (!nome || !peso || !altura) return;
-      const perfil = { nome, peso, altura };
-      if (pesoAlvo) perfil.pesoAlvo = pesoAlvo;
-      AppState.set('perfil', perfil);
+    if (target.id === 'onboard-next') {
+      const step = AppState.get('onboardingStep') || 0;
+      if (step === 5) {
+        const nome = document.getElementById('input-nome')?.value.trim();
+        const peso = parseFloat(document.getElementById('input-peso')?.value);
+        const altura = parseFloat(document.getElementById('input-altura')?.value);
+        const pesoAlvo = parseFloat(document.getElementById('input-peso-alvo')?.value);
+        if (!nome || !peso || !altura) return;
+        const perfil = { nome, peso, altura };
+        if (pesoAlvo) perfil.pesoAlvo = pesoAlvo;
+        AppState.set('perfil', perfil);
+      }
+      if (step === 3) {
+        const check = document.getElementById('onboard-treino-check');
+        if (check) AppState.set('onboardTreinoDone', check.checked);
+      }
+      if (step === 4) {
+        const horario = document.getElementById('onboard-sono-horario')?.value;
+        if (horario) AppState.set('onboardSonoMeta', horario);
+      }
+      if (step >= 7) {
+        AppState.set('onboardingCompleto', true);
+        AppState.set('onboardingStep', 0);
+        AppState.notify();
+        return;
+      }
+      AppState.set('onboardingStep', step + 1);
       AppState.notify();
+    }
+
+    if (target.id === 'onboard-back') {
+      const step = AppState.get('onboardingStep') || 0;
+      if (step > 0) {
+        AppState.set('onboardingStep', step - 1);
+        AppState.notify();
+      }
+    }
+
+    const chipCheck = target.closest('.chip-checkable');
+    if (chipCheck) {
+      if (chipCheck.id === 'onboard-treino-done') return;
+      const checkbox = chipCheck.querySelector('input[type="checkbox"]');
+      if (checkbox) {
+        checkbox.checked = !checkbox.checked;
+        chipCheck.classList.toggle('checked', checkbox.checked);
+        const id = chipCheck.dataset.id;
+        if (id) {
+          const selecionados = AppState.get('alimentosSelecionados') || [];
+          const idx = selecionados.indexOf(id);
+          if (checkbox.checked && idx === -1) selecionados.push(id);
+          else if (!checkbox.checked && idx > -1) selecionados.splice(idx, 1);
+          AppState.set('alimentosSelecionados', selecionados);
+        }
+      }
     }
 
     if (target.id === 'inicio-timer') navigate('timer');
