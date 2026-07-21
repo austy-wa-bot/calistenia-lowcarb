@@ -25,6 +25,39 @@
       "purpose": "any maskable"
     }
   ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "shortcuts": [
+    {
+      "name": "Iniciar Timer",
+      "short_name": "Timer",
+      "description": "Iniciar um treino Tabata rapidamente",
+      "url": "/calistenia-lowcarb/?page=timer",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Exercícios",
+      "short_name": "Exercícios",
+      "description": "Ver catálogo de exercícios",
+      "url": "/calistenia-lowcarb/?page=exercicios",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Dieta",
+      "short_name": "Dieta",
+      "description": "Montar refeição low-carb",
+      "url": "/calistenia-lowcarb/?page=dieta",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Progresso",
+      "short_name": "Progresso",
+      "description": "Ver evolução e estatísticas",
+      "url": "/calistenia-lowcarb/?page=progresso",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ],
   "screenshots": [
     {
       "src": "icons/screenshot-inicio.png",

@@ -1,4 +1,4 @@
-const CACHE = 'calistenia-v3';
+const CACHE = 'calistenia-v4';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
