@@ -2,7 +2,7 @@
   "name": "Calistenia Low-Carb",
   "short_name": "Calistenia LC",
   "description": "App de calistenia e dieta low-carb",
-  "start_url": "/calistenia-app/index.html?page=exercicios",
+  "start_url": "/calistenia-lowcarb/?page=exercicios",
   "display": "standalone",
   "background_color": "#1a1a2e",
   "theme_color": "#1a1a2e",
