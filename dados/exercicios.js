@@ -14,7 +14,7 @@ const EXERCICIOS = [
     nivel: 'intermediario',
     equipamento: 'nenhum',
     musculo: 'peito',
-    video: 'https://www.youtube.com/embed/MO10KOoQx5E',
+    video: 'https://www.youtube.com/embed/t2cR426fFx0',
     descricao: 'Mãos juntas formando um losango sob o peito. Ênfase em tríceps e peitoral interno.'
   },
   {
@@ -95,7 +95,7 @@ const EXERCICIOS = [
     nivel: 'avancado',
     equipamento: 'nenhum',
     musculo: 'peito',
-    video: 'https://www.youtube.com/embed/MO10KOoQx5E',
+    video: 'https://www.youtube.com/embed/6HxtxoXRFG0',
     descricao: 'Flexão com impulso para soltar as mãos do chão e bater palmas.'
   },
   {
@@ -113,7 +113,7 @@ const EXERCICIOS = [
     nivel: 'intermediario',
     equipamento: 'nenhum',
     musculo: 'ombros',
-    video: 'https://www.youtube.com/embed/MO10KOoQx5E',
+    video: 'https://www.youtube.com/embed/x7_I5SUAd00',
     descricao: 'Quadril elevado formando um V, desça a cabeça em direção ao chão.'
   },
   {
@@ -140,7 +140,7 @@ const EXERCICIOS = [
     nivel: 'iniciante',
     equipamento: 'nenhum',
     musculo: 'peito',
-    video: 'https://www.youtube.com/embed/MO10KOoQx5E',
+    video: 'https://www.youtube.com/embed/GX87fbBd78A',
     descricao: 'Desça controladamente por 3-4 segundos. Ótima para iniciantes ganharem força.'
   },
   {
