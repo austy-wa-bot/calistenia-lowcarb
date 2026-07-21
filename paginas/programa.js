@@ -21,7 +21,7 @@ function renderPrograma() {
 
   const diasHTML = semana.dias.map((d, di) => {
     const completo = todasStats.includes(d.dia);
-    const key = `prog-${semanaIdx}-${d.dia}`;
+    const key = `${semanaIdx}-${d.dia}`;
     return `
       <div class="card" style="margin:0 ${di > 0 ? '0 0 0 0' : '0'};${di > 0 ? '' : ''}">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
