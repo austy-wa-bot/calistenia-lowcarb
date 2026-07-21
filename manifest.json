@@ -24,5 +24,42 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/screenshot-inicio.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Dashboard com resumo e estimativa"
+    },
+    {
+      "src": "icons/screenshot-exercicios.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Catálogo de exercícios com filtros"
+    },
+    {
+      "src": "icons/screenshot-timer.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Timer Tabata configurável"
+    },
+    {
+      "src": "icons/screenshot-dieta.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Seleção de alimentos e receitas"
+    },
+    {
+      "src": "icons/screenshot-progresso.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Acompanhamento de progresso"
+    }
   ]
 }
