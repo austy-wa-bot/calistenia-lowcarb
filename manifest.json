@@ -1,7 +1,7 @@
 {
-  "name": "Calistenia Low-Carb",
-  "short_name": "Calistenia LC",
-  "description": "App de calistenia e dieta low-carb",
+  "name": "CicloFit",
+  "short_name": "CicloFit",
+  "description": "CicloFit — Calistenia Progressiva + Keto + Tabata Adaptado",
   "start_url": "/calistenia-lowcarb/?page=inicio",
   "display": "standalone",
   "background_color": "#1a1a2e",

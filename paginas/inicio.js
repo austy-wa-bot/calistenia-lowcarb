@@ -58,6 +58,25 @@ function renderInicio() {
     ? Math.min(100, Math.max(0, ((perfil.peso - perfil.pesoAlvo) / (perfil.peso - perfil.pesoAlvo)) * 100))
     : 100;
 
+  const sono = AppState.get('sono') || {};
+  const hojeStr = new Date().toISOString().split('T')[0];
+  const ontem = new Date();
+  ontem.setDate(ontem.getDate() - 1);
+  const ontemStr = ontem.toISOString().split('T')[0];
+  const sonoOntem = sono[ontemStr];
+  const sonoHoje = sono[hojeStr];
+  const streakSono = (() => {
+    let streak = 0;
+    const d = new Date();
+    while (true) {
+      const ds = d.toISOString().split('T')[0];
+      if (sono[ds]) streak++;
+      else break;
+      d.setDate(d.getDate() - 1);
+    }
+    return streak;
+  })();
+
   return `
     <div class="page" id="page-inicio">
       <div class="card">
@@ -100,6 +119,32 @@ function renderInicio() {
       </div>
 
       <div class="card">
+        <div class="card-title">😴 Sono — Pilar #1</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div>
+            <div style="font-size:.85rem;color:var(--text-dim)">Ontem você dormiu 8h?</div>
+            <div style="font-size:1.1rem;font-weight:600;color:${sonoOntem ? 'var(--green)' : 'var(--text-dim)'}">${sonoOntem ? '✅ Sim' : '❓ Não registrado'}</div>
+          </div>
+          <button class="btn ${sonoOntem ? 'btn-green' : 'btn-secondary'} btn-sm" id="toggle-sono-ontem">${sonoOntem ? '✓' : 'Marcar'}</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:.85rem;color:var(--text-dim)">Hoje (meta: deitar até 22h)</div>
+            <div style="font-size:1.1rem;font-weight:600;color:${sonoHoje ? 'var(--green)' : 'var(--text-dim)'}">${sonoHoje ? '✅ Registrado' : '⏳ Pendente'}</div>
+          </div>
+          <button class="btn ${sonoHoje ? 'btn-green' : 'btn-secondary'} btn-sm" id="toggle-sono-hoje">${sonoHoje ? '✓' : 'Marcar'}</button>
+        </div>
+        ${streakSono > 0 ? `<div style="margin-top:10px;font-size:.82rem;color:var(--green)">🔥 Sequência: ${streakSono} ${streakSono === 1 ? 'dia' : 'dias'} com 8h de sono</div>` : ''}
+      </div>
+
+      <div class="card">
+        <div class="card-title">💡 Dica do Dia — Nuno Cobra</div>
+        <div style="font-size:.9rem;color:var(--text);line-height:1.6;font-style:italic">
+          "${dicaDoDia()}"
+        </div>
+      </div>
+
+      <div class="card">
         <div class="card-title">⚡ Acesso Rápido</div>
         <div class="btn-group">
           <button class="btn btn-green" id="inicio-timer" style="flex:1">⏱ Timer</button>
@@ -122,6 +167,30 @@ function renderInicio() {
       </div>
     </div>
   `;
+}
+
+const DICAS_NUNO_COBRA = [
+  "Fazer pouco e fazer sempre. A consistência vence a intensidade.",
+  "Alcançar o cérebro através do músculo. O movimento cura.",
+  "Nunca exceda seus limites. Respeite seu corpo hoje para fortalecê-lo amanhã.",
+  "A semente da vitória precisa ser regada todos os dias.",
+  "Seu corpo agradece cada passo, por menor que seja.",
+  "O método não exige heróis. Exige persistência.",
+  "Transformação física é consequência de hábitos, não de esforços hercúleos.",
+  "Durma bem. Coma bem. Mova-se. O resto é consequência.",
+  "Não há atalho. Há apenas o próximo passo.",
+  "O corpo que você quer é feito nas pequenas decisões do dia a dia.",
+  "Respire. Alongue. Siga. O movimento é vida.",
+  "A disciplina é a ponte entre metas e conquistas.",
+  "Não espere motivação. Crie o hábito.",
+  "Cada treino é um voto para o tipo de pessoa que você quer se tornar.",
+  "O método é simples porque a vida já é complexa demais."
+];
+
+function dicaDoDia() {
+  const hoje = new Date();
+  const diaDoAno = Math.floor((hoje - new Date(hoje.getFullYear(), 0, 0)) / 86400000);
+  return DICAS_NUNO_COBRA[diaDoAno % DICAS_NUNO_COBRA.length];
 }
 
 function calcularPerdaSemanal(historico) {

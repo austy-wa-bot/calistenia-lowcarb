@@ -1,4 +1,4 @@
-const CACHE = 'calistenia-v4';
+const CACHE = 'ciclofit-v1';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(

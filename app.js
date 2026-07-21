@@ -61,7 +61,7 @@ function renderPage(pageId) {
 
   if (!page) return;
 
-  title.textContent = PAGE_TITLES[pageId] || 'Calistenia Low-Carb';
+  title.textContent = PAGE_TITLES[pageId] || 'CicloFit';
   content.innerHTML = page.render();
 
   const pageDiv = content.querySelector('.page');
@@ -152,6 +152,16 @@ function setupGlobalListeners() {
       });
     }
 
+    if (target.id === 'toggle-sono-ontem' || target.id === 'toggle-sono-hoje') {
+      const sono = AppState.get('sono') || {};
+      const d = new Date();
+      if (target.id === 'toggle-sono-ontem') d.setDate(d.getDate() - 1);
+      const ds = d.toISOString().split('T')[0];
+      sono[ds] = !sono[ds];
+      AppState.set('sono', sono);
+      AppState.notify();
+    }
+
     if (target.id === 'onboard-salvar') {
       const nome = document.getElementById('input-nome')?.value.trim();
       const peso = parseFloat(document.getElementById('input-peso')?.value);
@@ -189,6 +199,33 @@ function setupGlobalListeners() {
       historico.push({ data: new Date().toISOString(), peso: perfil.peso });
       AppState.set('pesoHistorico', historico);
       AppState.notify();
+    }
+
+    if (target.id === 'surprise-me') {
+      const receita = RECEITAS[Math.floor(Math.random() * RECEITAS.length)];
+      if (!receita) return;
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay open';
+      overlay.innerHTML = `
+        <div class="modal-content">
+          <h2>🎲 ${receita.nome}</h2>
+          <div class="recipe-meta">⏱ ${receita.tempo} · ${receita.dificuldade}</div>
+          <div class="card-title" style="margin-top:16px">Ingredientes</div>
+          <ul style="font-size:.85rem;color:var(--text-dim);line-height:1.8;margin-bottom:12px;padding-left:20px">
+            ${receita.ingredientes.map(i => {
+              const item = CATEGORIAS_ALIMENTOS.flatMap(c => c.itens).find(a => a.id === i);
+              return `<li>${item ? item.nome : i}</li>`;
+            }).join('')}
+          </ul>
+          <div class="card-title">Modo de Preparo</div>
+          <p style="font-size:.85rem;color:var(--text-dim);line-height:1.6;white-space:pre-line">${receita.instrucoes}</p>
+          <button class="btn btn-primary btn-block" style="margin-top:16px" id="fechar-modal">Fechar</button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay || e.target.id === 'fechar-modal') overlay.remove();
+      });
     }
 
     if (target.id === 'limpar-opcoes') {

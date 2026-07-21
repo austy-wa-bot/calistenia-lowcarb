@@ -44,7 +44,10 @@ function renderDieta() {
       </div>
 
       <div class="card">
-        <div class="card-title">🍳 Receitas Sugeridas</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div class="card-title" style="margin:0">🍳 Receitas Sugeridas</div>
+          <button class="btn btn-green btn-sm" id="surprise-me">🎲 Surpresa</button>
+        </div>
         <div id="receitas-lista">
           ${receitasHTML}
         </div>
