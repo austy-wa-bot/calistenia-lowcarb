@@ -43,7 +43,8 @@ const PAGES = {
   exercicios: { render: renderExercicios },
   timer: { render: renderTimer },
   dieta: { render: renderDieta },
-  progresso: { render: renderProgresso }
+  progresso: { render: renderProgresso },
+  programa: { render: renderPrograma }
 };
 
 const PAGE_TITLES = {
@@ -51,7 +52,8 @@ const PAGE_TITLES = {
   exercicios: '🏋️ Catálogo de Exercícios',
   timer: '⏱️ Timer Tabata',
   dieta: '🥗 Dieta Low-Carb',
-  progresso: '📊 Meu Progresso'
+  progresso: '📊 Meu Progresso',
+  programa: '📅 Programa'
 };
 
 function renderPage(pageId) {
@@ -152,6 +154,66 @@ function setupGlobalListeners() {
       });
     }
 
+    if (target.id === 'prog-comecar') {
+      AppState.set('programaInicio', new Date().toISOString());
+      AppState.set('programaSemanaAtual', 0);
+      AppState.notify();
+    }
+
+    const progIniciar = target.id && target.id.startsWith('prog-iniciar-');
+    if (progIniciar) {
+      const parts = target.id.replace('prog-iniciar-', '').split('-');
+      const semanaIdx = parseInt(parts[0]);
+      const dia = parseInt(parts[1]);
+      const semana = PROGRAMA_SEMANAL[semanaIdx];
+      if (semana) {
+        const diaDados = semana.dias.find(d => d.dia === dia);
+        if (diaDados) {
+          AppState.set('timerExercicios', diaDados.exercicios);
+          const cfg = AppState.get('timerConfig') || {};
+          AppState.set('timerConfig', { ...cfg, trabalho: 20, descanso: 10, rounds: 8, sets: 2 });
+          navigate('timer');
+        }
+      }
+    }
+
+    const progCompletar = target.id && target.id.startsWith('prog-completar-');
+    if (progCompletar) {
+      const parts = target.id.replace('prog-completar-', '').split('-');
+      const semanaIdx = parseInt(parts[0]);
+      const dia = parseInt(parts[1]);
+      const treinos = AppState.get('treinosPrograma') || {};
+      const lista = treinos[semanaIdx] || [];
+      if (!lista.includes(dia)) {
+        lista.push(dia);
+        treinos[semanaIdx] = lista;
+        AppState.set('treinosPrograma', treinos);
+        AppState.notify();
+      }
+    }
+
+    if (target.id === 'prog-proxima-semana') {
+      const atual = AppState.get('programaSemanaAtual') ?? 0;
+      if (atual < PROGRAMA_SEMANAL.length - 1) {
+        AppState.set('programaSemanaAtual', atual + 1);
+        AppState.notify();
+      }
+    }
+
+    if (target.id === 'prog-semana-anterior') {
+      const atual = AppState.get('programaSemanaAtual') ?? 0;
+      if (atual > 0) {
+        AppState.set('programaSemanaAtual', atual - 1);
+        AppState.notify();
+      }
+    }
+
+    const progWeekMatch = target.id && target.id.match(/^prog-week-(\d+)$/);
+    if (progWeekMatch) {
+      AppState.set('programaSemanaAtual', parseInt(progWeekMatch[1]));
+      AppState.notify();
+    }
+
     if (target.id === 'toggle-sono-ontem' || target.id === 'toggle-sono-hoje') {
       const sono = AppState.get('sono') || {};
       const d = new Date();
@@ -219,6 +281,7 @@ function setupGlobalListeners() {
     }
 
     if (target.id === 'inicio-timer') navigate('timer');
+    if (target.id === 'inicio-programa') navigate('programa');
     if (target.id === 'inicio-exercicios') navigate('exercicios');
     if (target.id === 'inicio-progresso') navigate('progresso');
     if (target.id === 'inicio-dieta') navigate('dieta');

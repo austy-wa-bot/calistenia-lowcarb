@@ -234,12 +234,30 @@ function salvarTreino() {
   AppState.notify();
 }
 
+function renderExerciciosTimer() {
+  const ids = AppState.get('timerExercicios');
+  if (!ids || !ids.length) return '';
+  return `
+    <div class="card" style="text-align:center">
+      <div class="card-title">🏋️ Exercícios do Dia</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
+        ${ids.map(id => {
+          const ex = EXERCICIOS.find(e => e.id === id);
+          return ex ? `<span class="chip-checkable" style="cursor:default;background:var(--green-light);border-color:transparent;color:var(--green);padding:4px 12px;font-size:.78rem;font-weight:600">${ex.nome}</span>` : '';
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
 function renderTimer() {
   const cfg = getTimerConfig();
   const estado = AppState.get('timerEstado');
+  const exHTML = renderExerciciosTimer();
   if (!estado || estado.status === 'pronto') {
     return `
       <div class="page" id="page-timer">
+        ${exHTML}
         <div class="card timer-display">
           <div class="timer-round" id="timer-round">Round 1/${cfg.rounds} · Set 1/${cfg.sets}</div>
           <div class="timer-time" id="timer-time">${formatarTempo(cfg.trabalho)}</div>
@@ -288,6 +306,7 @@ function renderTimer() {
 
   return `
     <div class="page" id="page-timer">
+      ${exHTML}
       <div class="card timer-display">
         <div class="timer-round" id="timer-round">${estado.status === 'finalizado' ? '🏆 Treino Concluído!' : `Round ${estado.round}/${cfg.rounds} · Set ${estado.set}/${cfg.sets}`}</div>
         <div class="timer-time" id="timer-time">${formatarTempo(estado.tempo)}</div>

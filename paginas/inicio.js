@@ -120,11 +120,14 @@ function renderInicio() {
         <div class="card-title">⚡ Acesso Rápido</div>
         <div class="btn-group">
           <button class="btn btn-green" id="inicio-timer" style="flex:1">⏱ Timer</button>
-          <button class="btn btn-primary" id="inicio-exercicios" style="flex:1">🏋️ Exercícios</button>
+          <button class="btn btn-primary" id="inicio-programa" style="flex:1">📅 Programa</button>
+        </div>
+        <div class="btn-group" style="margin-top:8px">
+          <button class="btn btn-secondary" id="inicio-exercicios" style="flex:1">🏋️ Exercícios</button>
+          <button class="btn btn-secondary" id="inicio-dieta" style="flex:1">🥗 Dieta</button>
         </div>
         <div class="btn-group" style="margin-top:8px">
           <button class="btn btn-secondary" id="inicio-progresso" style="flex:1">📊 Progresso</button>
-          <button class="btn btn-secondary" id="inicio-dieta" style="flex:1">🥗 Dieta</button>
         </div>
       </div>
 

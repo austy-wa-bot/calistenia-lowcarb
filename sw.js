@@ -1,4 +1,4 @@
-const CACHE = 'ciclofit-v1';
+const CACHE = 'ciclofit-v2';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
@@ -10,11 +10,13 @@ self.addEventListener('install', (e) => {
         'dados/exercicios.js',
         'dados/alimentos.js',
         'dados/receitas.js',
+        'dados/programa.js',
         'paginas/inicio.js',
         'paginas/exercicios.js',
         'paginas/timer.js',
         'paginas/dieta.js',
         'paginas/progresso.js',
+        'paginas/programa.js',
         'manifest.json',
         'icons/icon-192x192.png',
         'icons/icon-512x512.png',
