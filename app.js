@@ -170,8 +170,9 @@ function setupGlobalListeners() {
         const diaDados = semana.dias.find(d => d.dia === dia);
         if (diaDados) {
           AppState.set('timerExercicios', diaDados.exercicios);
-          const cfg = AppState.get('timerConfig') || {};
-          AppState.set('timerConfig', { ...cfg, trabalho: 20, descanso: 10, rounds: 8, sets: 2 });
+          const perfil = AppState.get('perfil') || {};
+          const tabataCfg = tabataPorTempoParado(perfil.tempoParado || '');
+          AppState.set('timerConfig', { ...tabataCfg });
           navigate('timer');
         }
       }
@@ -226,25 +227,37 @@ function setupGlobalListeners() {
 
     if (target.id === 'onboard-next') {
       const step = AppState.get('onboardingStep') || 0;
-      if (step === 5) {
+      if (step === 2) {
+        const perfil = AppState.get('perfil') || {};
+        perfil.tempoParado = document.getElementById('input-tempo-parado')?.value || '';
+        const condChips = document.querySelectorAll('[data-cond]');
+        perfil.condicoes = [];
+        condChips.forEach(ch => {
+          if (ch.classList.contains('checked')) perfil.condicoes.push(ch.dataset.cond);
+        });
+        perfil.outraCondicao = document.getElementById('input-outra-condicao')?.value?.trim() || '';
+        AppState.set('perfil', perfil);
+      }
+      if (step === 6) {
         const nome = document.getElementById('input-nome')?.value.trim();
         const peso = parseFloat(document.getElementById('input-peso')?.value);
         const altura = parseFloat(document.getElementById('input-altura')?.value);
         const pesoAlvo = parseFloat(document.getElementById('input-peso-alvo')?.value);
         if (!nome || !peso || !altura) return;
-        const perfil = { nome, peso, altura };
+        const perfil = AppState.get('perfil') || {};
+        Object.assign(perfil, { nome, peso, altura });
         if (pesoAlvo) perfil.pesoAlvo = pesoAlvo;
         AppState.set('perfil', perfil);
       }
-      if (step === 3) {
+      if (step === 4) {
         const check = document.getElementById('onboard-treino-check');
         if (check) AppState.set('onboardTreinoDone', check.checked);
       }
-      if (step === 4) {
+      if (step === 5) {
         const horario = document.getElementById('onboard-sono-horario')?.value;
         if (horario) AppState.set('onboardSonoMeta', horario);
       }
-      if (step >= 7) {
+      if (step >= 8) {
         AppState.set('onboardingCompleto', true);
         AppState.set('onboardingStep', 0);
         AppState.notify();
@@ -270,12 +283,31 @@ function setupGlobalListeners() {
         checkbox.checked = !checkbox.checked;
         chipCheck.classList.toggle('checked', checkbox.checked);
         const id = chipCheck.dataset.id;
+        const cond = chipCheck.dataset.cond;
         if (id) {
           const selecionados = AppState.get('alimentosSelecionados') || [];
           const idx = selecionados.indexOf(id);
           if (checkbox.checked && idx === -1) selecionados.push(id);
           else if (!checkbox.checked && idx > -1) selecionados.splice(idx, 1);
           AppState.set('alimentosSelecionados', selecionados);
+        }
+        if (cond) {
+          if (cond === 'nenhuma') {
+            document.querySelectorAll('[data-cond]').forEach(c => {
+              if (c.dataset.cond !== 'nenhuma') {
+                c.classList.remove('checked');
+                const cb = c.querySelector('input');
+                if (cb) cb.checked = false;
+              }
+            });
+          } else {
+            const nenhumaChip = document.querySelector('[data-cond="nenhuma"]');
+            if (nenhumaChip) {
+              nenhumaChip.classList.remove('checked');
+              const cb = nenhumaChip.querySelector('input');
+              if (cb) cb.checked = false;
+            }
+          }
         }
       }
     }

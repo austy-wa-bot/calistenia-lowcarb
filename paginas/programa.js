@@ -4,6 +4,11 @@ function renderPrograma() {
   const semana = PROGRAMA_SEMANAL[semanaIdx];
   const treinosCompletos = AppState.get('treinosPrograma') || {};
   const todasStats = treinosCompletos[semanaIdx] || [];
+  const perfil = AppState.get('perfil') || {};
+  const condicoes = perfil.condicoes || [];
+  const tempoParado = perfil.tempoParado || '';
+  const tabataCfg = tabataPorTempoParado(tempoParado);
+  const avisoGeral = avisoCondicoes(condicoes);
 
   if (!AppState.get('programaInicio') && !AppState.get('programaSemanaAtual')) {
     return renderProgramaWelcome();
@@ -22,6 +27,7 @@ function renderPrograma() {
   const diasHTML = semana.dias.map((d, di) => {
     const completo = todasStats.includes(d.dia);
     const key = `${semanaIdx}-${d.dia}`;
+    const temRestricao = d.exercicios.some(id => !exercicioCompativel(id, condicoes).ok);
     return `
       <div class="card" style="margin:0 ${di > 0 ? '0 0 0 0' : '0'};${di > 0 ? '' : ''}">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -34,9 +40,15 @@ function renderPrograma() {
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
           ${d.exercicios.map(id => {
             const ex = exercicioPorId(id);
-            return ex ? `<span class="chip-checkable" style="cursor:default;background:var(--bg-input);border-color:transparent;padding:4px 10px;font-size:.78rem">${ex.nome}</span>` : '';
+            if (!ex) return '';
+            const compat = exercicioCompativel(id, condicoes);
+            const cor = compat.ok ? 'var(--bg-input)' : 'var(--yellow-light)';
+            const borda = compat.ok ? 'transparent' : 'var(--yellow)';
+            return `<span class="chip-checkable" style="cursor:default;background:${cor};border-color:${borda};padding:4px 10px;font-size:.78rem" title="${compat.ok ? '' : '⚠️ ' + (compat.motivos || []).join(', ')}">${ex.nome}${compat.ok ? '' : ' ⚠️'}</span>`;
           }).join('')}
         </div>
+        ${temRestricao ? '<div style="font-size:.72rem;color:var(--yellow);margin-bottom:6px">⚠️ Exercícios com restrição — adapte conforme necessário</div>' : ''}
+        ${tempoParado && tabataCfg.label !== 'intensidade normal' ? `<div style="font-size:.72rem;color:var(--accent);margin-bottom:6px">⏱ Tabata adaptado: ${tabataCfg.trabalho}s/${tabataCfg.descanso}s — ${tabataCfg.label}</div>` : ''}
         <div style="display:flex;gap:8px">
           <button class="btn btn-green btn-sm" id="prog-iniciar-${key}" style="flex:1">▶ Iniciar</button>
           <button class="btn btn-secondary btn-sm" id="prog-completar-${key}" style="flex:1">
@@ -66,9 +78,16 @@ function renderPrograma() {
         ${weekNav}
       </div>
 
+      ${avisoGeral ? `
+        <div class="card" style="padding:10px 14px;background:var(--yellow-light);border:1px solid var(--yellow);font-size:.8rem;color:var(--text);line-height:1.5">
+          ${avisoGeral}
+        </div>
+      ` : ''}
+
       <div class="card" style="text-align:center">
         <div style="font-weight:700;font-size:1.1rem;color:var(--primary)">Semana ${semanaIdx + 1}: ${semana.titulo}</div>
         <div style="font-size:.8rem;color:var(--text-dim);margin-top:4px">${semana.subtitulo}</div>
+        ${tempoParado && tabataCfg.label !== 'intensidade normal' ? `<div style="font-size:.78rem;color:var(--accent);margin-top:6px">⏱ Seu ritmo: ${tabataCfg.trabalho}s trabalho / ${tabataCfg.descanso}s descanso</div>` : ''}
       </div>
 
       ${diasHTML}

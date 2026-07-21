@@ -112,3 +112,54 @@ function semanaAtual() {
 function exercicioPorId(id) {
   return EXERCICIOS.find(e => e.id === id);
 }
+
+const EXERCICIOS_RESTRICOES = {
+  'agachamento-bulgaro': ['joelho'],
+  'pistol': ['joelho'],
+  'afundo': ['joelho'],
+  'agachamento': ['joelho'],
+  'flexao-pike': ['ombro', 'punho'],
+  'mergulho-triceps': ['ombro', 'punho'],
+  'flexao': ['punho', 'ombro'],
+  'flexao-diamante': ['punho', 'ombro'],
+  'flexao-negativa': ['punho'],
+  'flexao-aplaudida': ['punho', 'ombro'],
+  'superman': ['coluna', 'hernia'],
+  'prancha': ['coluna', 'punho'],
+  'abdominal': ['coluna', 'hernia'],
+  'bicicleta': ['coluna', 'hernia'],
+  'cadeira-barras': ['ombro', 'coluna'],
+};
+
+function exercicioCompativel(id, condicoes) {
+  if (!condicoes || condicoes.length === 0 || condicoes.includes('nenhuma')) return { ok: true };
+  const restricoes = EXERCICIOS_RESTRICOES[id];
+  if (!restricoes) return { ok: true };
+  const conflitos = restricoes.filter(r => condicoes.includes(r));
+  if (conflitos.length === 0) return { ok: true };
+  return { ok: false, motivos: conflitos };
+}
+
+function tabataPorTempoParado(tempoParado) {
+  const configs = {
+    'nunca': { trabalho: 20, descanso: 10, rounds: 8, sets: 2, label: 'intensidade normal' },
+    'menos-1-mes': { trabalho: 20, descanso: 10, rounds: 8, sets: 2, label: 'intensidade normal' },
+    '1-3-meses': { trabalho: 15, descanso: 15, rounds: 8, sets: 2, label: 'ritmo moderado' },
+    '3-6-meses': { trabalho: 10, descanso: 20, rounds: 8, sets: 2, label: 'ritmo leve' },
+    'mais-6-meses': { trabalho: 10, descanso: 20, rounds: 8, sets: 1, label: 'ritmo leve - 1 set' },
+  };
+  return configs[tempoParado] || configs['nunca'];
+}
+
+function avisoCondicoes(condicoes) {
+  if (!condicoes || condicoes.length === 0 || condicoes.includes('nenhuma')) return '';
+  const mapa = {
+    joelho: '⚠️ Evite impactos nos joelhos. Prefira agachamento convencional.',
+    coluna: '⚠️ Mantenha a coluna neutra. Evite hiperextensão.',
+    ombro: '⚠️ Reduza amplitude se houver dor no ombro.',
+    punho: '⚠️ Faça flexões nos punhos ou use halteres como apoio.',
+    cardiaco: '⚠️ Monitore a frequência cardíaca. Faça pausas se necessário.',
+    hernia: '⚠️ Evite compressão abdominal. Consulte seu médico.',
+  };
+  return condicoes.map(c => mapa[c]).filter(Boolean).join('<br>');
+}

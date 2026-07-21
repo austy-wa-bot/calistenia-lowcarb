@@ -170,12 +170,13 @@ function dicaDoDia() {
 
 function renderOnboarding() {
   const step = AppState.get('onboardingStep') || 0;
-  const total = 8;
+  const total = 9;
   const pct = ((step + 1) / total) * 100;
 
   const steps = [
     { titulo: 'Bem-vindo', icone: '💪' },
     { titulo: 'Expectativas', icone: '🎯' },
+    { titulo: 'Seu Ritmo', icone: '🏃' },
     { titulo: 'Despensa', icone: '🥗' },
     { titulo: 'Primeiro Treino', icone: '🏋️' },
     { titulo: 'Qualidade do Sono', icone: '😴' },
@@ -254,6 +255,52 @@ function renderOnboarding() {
       break;
     }
     case 2: {
+      const perfil = AppState.get('perfil') || {};
+      const tempoParado = perfil.tempoParado || '';
+      const condicoes = perfil.condicoes || [];
+      body = `
+        <div style="text-align:center;padding:8px 0">
+          <div style="font-size:3rem;margin-bottom:12px">🏃</div>
+          <h2 style="font-size:1.3rem;margin-bottom:8px">Seu Ritmo</h2>
+          <p style="font-size:.82rem;color:var(--text-dim);line-height:1.5;margin-bottom:16px">
+            Isso ajuda a personalizar a intensidade do programa.
+          </p>
+          <div class="form-group" style="text-align:left">
+            <label>Há quanto tempo você treina regularmente?</label>
+            <select id="input-tempo-parado" style="font-size:.9rem">
+              <option value="" ${!tempoParado ? 'selected' : ''}>Selecione...</option>
+              <option value="nunca" ${tempoParado === 'nunca' ? 'selected' : ''}>Nunca parei — treino regularmente</option>
+              <option value="menos-1-mes" ${tempoParado === 'menos-1-mes' ? 'selected' : ''}>Menos de 1 mês parado</option>
+              <option value="1-3-meses" ${tempoParado === '1-3-meses' ? 'selected' : ''}>1 a 3 meses parado</option>
+              <option value="3-6-meses" ${tempoParado === '3-6-meses' ? 'selected' : ''}>3 a 6 meses parado</option>
+              <option value="mais-6-meses" ${tempoParado === 'mais-6-meses' ? 'selected' : ''}>Mais de 6 meses parado</option>
+            </select>
+          </div>
+          <div style="text-align:left;margin-top:16px">
+            <label style="font-size:.85rem;font-weight:600;display:block;margin-bottom:8px">Tem alguma condição ou limitação?</label>
+            ${[
+              {id:'nenhuma', label:'Nenhuma'},
+              {id:'joelho', label:'Joelho'},
+              {id:'coluna', label:'Coluna / Costas'},
+              {id:'ombro', label:'Ombro'},
+              {id:'punho', label:'Punho'},
+              {id:'cardiaco', label:'Cardíaco'},
+              {id:'hernia', label:'Hérnia de disco'},
+            ].map(c => `
+              <label class="chip-checkable ${condicoes.includes(c.id) ? 'checked' : ''}" data-cond="${c.id}" style="display:inline-flex;margin:0 4px 6px 0;font-size:.82rem">
+                <input type="checkbox" ${condicoes.includes(c.id) ? 'checked' : ''} style="display:none">
+                <span>${c.label}</span>
+              </label>
+            `).join('')}
+            <div style="margin-top:8px">
+              <input type="text" id="input-outra-condicao" value="${perfil.outraCondicao || ''}" placeholder="Outra (opcional)" style="font-size:.85rem;width:100%">
+            </div>
+          </div>
+        </div>
+      `;
+      break;
+    }
+    case 3: {
       body = `
         <div style="text-align:center;padding:8px 0">
           <div style="font-size:3rem;margin-bottom:12px">🥗</div>
@@ -284,7 +331,7 @@ function renderOnboarding() {
       `;
       break;
     }
-    case 3: {
+    case 4: {
       body = `
         <div style="text-align:center;padding:8px 0">
           <div style="font-size:3rem;margin-bottom:12px">🏋️</div>
@@ -310,7 +357,7 @@ function renderOnboarding() {
       `;
       break;
     }
-    case 4: {
+    case 5: {
       body = `
         <div style="text-align:center;padding:8px 0">
           <div style="font-size:3rem;margin-bottom:12px">😴</div>
@@ -333,7 +380,7 @@ function renderOnboarding() {
       `;
       break;
     }
-    case 5: {
+    case 6: {
       body = `
         <div style="text-align:center;padding:8px 0">
           <div style="font-size:3rem;margin-bottom:12px">📝</div>
@@ -363,7 +410,7 @@ function renderOnboarding() {
       `;
       break;
     }
-    case 6: {
+    case 7: {
       const selecionados = AppState.get('alimentosSelecionados') || [];
       let sugestao = null;
       let comIngredientes = 0;
@@ -405,7 +452,7 @@ function renderOnboarding() {
       nextLabel = 'Último';
       break;
     }
-    case 7: {
+    case 8: {
       body = `
         <div style="text-align:center;padding:8px 0">
           <div style="font-size:3rem;margin-bottom:12px">🚀</div>
