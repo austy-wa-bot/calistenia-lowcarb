@@ -7,7 +7,7 @@ const AppState = {
       if (saved) this._data = JSON.parse(saved);
     } catch (e) {}
 
-    const page = new URLSearchParams(window.location.search).get('page') || 'exercicios';
+    const page = new URLSearchParams(window.location.search).get('page') || 'inicio';
     this._data._page = page;
   },
 
@@ -33,12 +33,13 @@ const AppState = {
 
   notify() {
     this._save();
-    const page = this._data._page || 'exercicios';
+    const page = this._data._page || 'inicio';
     renderPage(page);
   }
 };
 
 const PAGES = {
+  inicio: { render: renderInicio },
   exercicios: { render: renderExercicios },
   timer: { render: renderTimer },
   dieta: { render: renderDieta },
@@ -46,6 +47,7 @@ const PAGES = {
 };
 
 const PAGE_TITLES = {
+  inicio: '🏠 Início',
   exercicios: '🏋️ Catálogo de Exercícios',
   timer: '⏱️ Timer Tabata',
   dieta: '🥗 Dieta Low-Carb',
@@ -150,6 +152,23 @@ function setupGlobalListeners() {
       });
     }
 
+    if (target.id === 'onboard-salvar') {
+      const nome = document.getElementById('input-nome')?.value.trim();
+      const peso = parseFloat(document.getElementById('input-peso')?.value);
+      const altura = parseFloat(document.getElementById('input-altura')?.value);
+      const pesoAlvo = parseFloat(document.getElementById('input-peso-alvo')?.value);
+      if (!nome || !peso || !altura) return;
+      const perfil = { nome, peso, altura };
+      if (pesoAlvo) perfil.pesoAlvo = pesoAlvo;
+      AppState.set('perfil', perfil);
+      AppState.notify();
+    }
+
+    if (target.id === 'inicio-timer') navigate('timer');
+    if (target.id === 'inicio-exercicios') navigate('exercicios');
+    if (target.id === 'inicio-progresso') navigate('progresso');
+    if (target.id === 'inicio-dieta') navigate('dieta');
+
     if (target.id === 'salvar-perfil') {
       const peso = parseFloat(document.getElementById('input-peso')?.value);
       const altura = parseFloat(document.getElementById('input-altura')?.value);
@@ -210,13 +229,13 @@ document.addEventListener('DOMContentLoaded', () => {
   setupGlobalListeners();
 
   window.addEventListener('popstate', () => {
-    const page = new URLSearchParams(window.location.search).get('page') || 'exercicios';
+    const page = new URLSearchParams(window.location.search).get('page') || 'inicio';
     renderPage(page);
   });
 
-  const initialPage = new URLSearchParams(window.location.search).get('page') || 'exercicios';
+  const initialPage = new URLSearchParams(window.location.search).get('page') || 'inicio';
   if (PAGES[initialPage]) renderPage(initialPage);
-  else renderPage('exercicios');
+  else renderPage('inicio');
 });
 
 window.addEventListener('beforeunload', () => {

@@ -98,6 +98,32 @@ function renderProgresso() {
       </div>
       ` : ''}
 
+      ${perfil.pesoAlvo && perfil.peso !== perfil.pesoAlvo ? `
+      <div class="card">
+        <div class="card-title">⏱ Estimativa até a Meta</div>
+        ${(() => {
+          const perdaPorSemana = calcularPerdaSemanal(pesoHistorico);
+          if (perdaPorSemana) {
+            const diff = perfil.peso - perfil.pesoAlvo;
+            const semanas = Math.abs(diff / perdaPorSemana);
+            if (semanas > 0 && semanas < 200) {
+              const s = Math.round(semanas);
+              return `
+                <div style="text-align:center;padding:8px 0">
+                  <div style="font-size:1.8rem;font-weight:700;color:${s <= 4 ? 'var(--green)' : s <= 12 ? 'var(--yellow)' : 'var(--text-dim)'}">~${s} semanas</div>
+                  <div style="font-size:.82rem;color:var(--text-dim);margin-top:4px">${perdaPorSemana > 0 ? `Perdendo ${Math.abs(perdaPorSemana).toFixed(2)} kg/semana` : `Ganhando ${Math.abs(perdaPorSemana).toFixed(2)} kg/semana`}</div>
+                </div>
+              `;
+            }
+          }
+          return `
+            <div style="text-align:center;padding:8px 0">
+              <div style="font-size:.85rem;color:var(--text-dim)">📝 Registre seu peso por algumas semanas para vermos sua estimativa</div>
+            </div>
+          `;
+        })()}
+      </div>` : ''}
+
       ${pesoHistorico.length > 0 ? `
       <div class="card">
         <div class="card-title">📈 Evolução do Peso</div>
