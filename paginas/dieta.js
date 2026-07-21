@@ -36,8 +36,9 @@ function renderDieta() {
       <div class="card">
         <div class="card-title">🥩 O que você tem em casa?</div>
         <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:12px">Clique nos alimentos disponíveis para ver receitas low-carb compatíveis.</p>
-        <div style="font-size:.8rem;color:var(--text-dim);margin-bottom:12px">
-          ${selecionados.length > 0 ? `Selecionados: ${selecionados.length} alimentos` : 'Nenhum selecionado'}
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--text-dim);margin-bottom:12px">
+          <span>${selecionados.length > 0 ? `Selecionados: ${selecionados.length} alimentos` : 'Nenhum selecionado'}</span>
+          ${selecionados.length > 0 ? '<button class="btn btn-secondary btn-sm" id="limpar-opcoes">✕ Limpar</button>' : ''}
         </div>
         ${alimentosHTML}
       </div>

@@ -150,6 +150,33 @@ function setupGlobalListeners() {
       });
     }
 
+    if (target.id === 'salvar-perfil') {
+      const peso = parseFloat(document.getElementById('input-peso')?.value);
+      const altura = parseFloat(document.getElementById('input-altura')?.value);
+      const pesoAlvo = parseFloat(document.getElementById('input-peso-alvo')?.value);
+      if (!peso || !altura) return;
+      const perfil = AppState.get('perfil') || {};
+      perfil.peso = peso;
+      perfil.altura = altura;
+      if (pesoAlvo) perfil.pesoAlvo = pesoAlvo;
+      AppState.set('perfil', perfil);
+      AppState.notify();
+    }
+
+    if (target.id === 'registrar-peso') {
+      const perfil = AppState.get('perfil');
+      if (!perfil?.peso) return;
+      const historico = AppState.get('pesoHistorico') || [];
+      historico.push({ data: new Date().toISOString(), peso: perfil.peso });
+      AppState.set('pesoHistorico', historico);
+      AppState.notify();
+    }
+
+    if (target.id === 'limpar-opcoes') {
+      AppState.set('alimentosSelecionados', []);
+      AppState.notify();
+    }
+
     if (target.id === 'limpar-historico') {
       if (confirm('Tem certeza que deseja limpar todo o histórico de treinos?')) {
         AppState.set('treinos', []);

@@ -412,11 +412,9 @@ html, body {
 }
 
 .timer-config .form-row {
-  flex-wrap: wrap;
-}
-
-.timer-config .form-row .form-group {
-  min-width: 70px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .timer-progress {
@@ -548,6 +546,10 @@ html, body {
   font-weight: 700;
   color: var(--accent);
 }
+
+.stat-green { color: var(--green) !important; }
+.stat-yellow { color: var(--yellow) !important; }
+.stat-red { color: var(--accent) !important; }
 
 .stat-label {
   font-size: .72rem;
