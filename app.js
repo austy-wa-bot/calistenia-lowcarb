@@ -332,10 +332,13 @@ function setupGlobalListeners() {
     }
 
     if (target.id === 'registrar-peso') {
-      const perfil = AppState.get('perfil');
-      if (!perfil?.peso) return;
+      const pesoInput = parseFloat(document.getElementById('input-peso')?.value);
+      if (!pesoInput) return;
+      const perfil = AppState.get('perfil') || {};
+      perfil.peso = pesoInput;
+      AppState.set('perfil', perfil);
       const historico = AppState.get('pesoHistorico') || [];
-      historico.push({ data: new Date().toISOString(), peso: perfil.peso });
+      historico.push({ data: new Date().toISOString(), peso: pesoInput });
       AppState.set('pesoHistorico', historico);
       AppState.notify();
     }
