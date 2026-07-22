@@ -90,29 +90,25 @@ function renderProgresso() {
         </div>
       </div>
 
-      ${(() => {
-        const tempoParado = perfil.tempoParado;
-        const condicoes = perfil.condicoes || [];
-        const outraCondicao = perfil.outraCondicao || '';
-        const sonoMeta = AppState.get('onboardSonoMeta');
-        const itens = [];
-        if (tempoParado && TEMPO_PARADO_LABELS[tempoParado]) itens.push({ icon: '📅', label: 'Tempo parado', valor: TEMPO_PARADO_LABELS[tempoParado] });
-        if (condicoes.length > 0 && !condicoes.includes('nenhuma')) itens.push({ icon: '🩺', label: 'Condições', valor: condicoes.map(c => CONDICOES_LABELS[c] || c).join(', ') });
-        if (outraCondicao) itens.push({ icon: '📝', label: 'Outra condição', valor: outraCondicao });
-        if (sonoMeta) itens.push({ icon: '😴', label: 'Meta deitar', valor: sonoMeta });
-        if (itens.length === 0) return '';
-        return `
-          <div class="card">
-            <div class="card-title">📋 Dados do Onboarding</div>
-            ${itens.map(item => `
-              <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.82rem">
-                <span style="color:var(--text-dim)">${item.icon} ${item.label}</span>
-                <span style="font-weight:500;text-align:right;margin-left:12px">${item.valor}</span>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      })()}
+      <div class="card">
+        <div class="card-title">📋 Dados do Onboarding</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.82rem">
+          <span style="color:var(--text-dim)">📅 Tempo parado</span>
+          <span style="font-weight:500;text-align:right;margin-left:12px;${!perfil.tempoParado ? 'color:var(--text-dim);font-style:italic' : ''}">${TEMPO_PARADO_LABELS[perfil.tempoParado] || 'Não informado'}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.82rem">
+          <span style="color:var(--text-dim)">🩺 Condições</span>
+          <span style="font-weight:500;text-align:right;margin-left:12px;${!perfil.condicoes || perfil.condicoes.length === 0 || perfil.condicoes.includes('nenhuma') ? 'color:var(--text-dim);font-style:italic' : ''}">${(!perfil.condicoes || perfil.condicoes.length === 0 || perfil.condicoes.includes('nenhuma')) ? (perfil.condicoes?.includes('nenhuma') ? 'Nenhuma' : 'Não informado') : perfil.condicoes.map(c => CONDICOES_LABELS[c] || c).join(', ')}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.82rem">
+          <span style="color:var(--text-dim)">📝 Outra condição</span>
+          <span style="font-weight:500;text-align:right;margin-left:12px;${!perfil.outraCondicao ? 'color:var(--text-dim);font-style:italic' : ''}">${perfil.outraCondicao || '—'}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.82rem">
+          <span style="color:var(--text-dim)">😴 Meta deitar</span>
+          <span style="font-weight:500;text-align:right;margin-left:12px;${!AppState.get('onboardSonoMeta') ? 'color:var(--text-dim);font-style:italic' : ''}">${AppState.get('onboardSonoMeta') || 'Não informado'}</span>
+        </div>
+      </div>
 
       ${imc ? `
       <div class="card">
