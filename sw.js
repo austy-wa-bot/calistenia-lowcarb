@@ -1,4 +1,4 @@
-const CACHE = 'ciclofit-v3';
+const CACHE = 'ciclofit-v4';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
@@ -24,7 +24,6 @@ self.addEventListener('install', (e) => {
       ]);
     })
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
@@ -36,6 +35,12 @@ self.addEventListener('activate', (e) => {
     })
   );
   self.clients.claim();
+});
+
+self.addEventListener('message', (e) => {
+  if (e.data && e.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('fetch', (e) => {

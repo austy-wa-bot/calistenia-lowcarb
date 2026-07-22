@@ -199,6 +199,11 @@ function renderProgresso() {
       ${treinos.length > 0 ? `
         <button class="btn btn-secondary btn-block" id="limpar-historico">🗑️ Limpar Histórico</button>
       ` : ''}
+
+      <div style="text-align:center;padding:16px 0 8px;font-size:.75rem;color:var(--text-dim)">
+        <a href="#" id="verificar-atualizacoes" style="color:var(--text-dim);text-decoration:none;border-bottom:1px dotted var(--border)">🔄 Verificar atualizações</a>
+        <span style="display:block;margin-top:4px">CicloFit v3 · Service Worker</span>
+      </div>
     </div>
   `;
 }

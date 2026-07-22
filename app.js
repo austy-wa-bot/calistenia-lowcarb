@@ -420,3 +420,57 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('beforeunload', () => {
   AppState._save();
 });
+
+function appShowUpdateToast(reg) {
+  const toast = document.getElementById('update-toast');
+  if (!toast) return;
+  toast.style.display = 'flex';
+  const btn = document.getElementById('btn-atualizar-agora');
+  if (btn) {
+    btn._reg = reg;
+    btn.onclick = function () {
+      if (this._reg && this._reg.waiting) {
+        this._reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+    };
+  }
+  const closeBtn = document.getElementById('btn-fechar-toast');
+  if (closeBtn) {
+    closeBtn.onclick = () => { toast.style.display = 'none'; };
+  }
+}
+
+function appCheckForUpdates() {
+  const toast = document.getElementById('update-toast');
+  const reg = window.__swReg;
+  if (!reg) {
+    if (toast) {
+      toast.querySelector('span').textContent = 'Service Worker não disponível';
+      toast.style.display = 'flex';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+    return;
+  }
+  reg.update().then(() => {
+    if (toast) {
+      toast.querySelector('span').textContent = '✅ Verificação concluída';
+      toast.style.display = 'flex';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+  }).catch(() => {
+    if (toast) {
+      toast.querySelector('span').textContent = '❌ Erro ao verificar';
+      toast.style.display = 'flex';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+  });
+}
+
+document.addEventListener('click', e => {
+  if (e.target.id === 'verificar-atualizacoes') {
+    e.preventDefault();
+    const toast = document.getElementById('update-toast');
+    if (toast) toast.querySelector('span').textContent = '🔄 Verificando...';
+    appCheckForUpdates();
+  }
+});

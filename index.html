@@ -59,23 +59,36 @@
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(regs => {
-        regs.forEach(r => r.unregister());
-      });
-      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
-        if (reg.active && !navigator.serviceWorker.controller) {
-          window.location.reload();
-        }
-        reg.addEventListener('updatefound', () => {
-          const installing = reg.installing;
-          installing.addEventListener('statechange', () => {
-            if (installing.state === 'activated') {
-              window.location.reload();
-            }
+      (async () => {
+        try {
+          const reg = await navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
+          window.__swReg = reg;
+
+          reg.addEventListener('updatefound', () => {
+            const installing = reg.installing;
+            installing.addEventListener('statechange', () => {
+              if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+                appShowUpdateToast(reg);
+              }
+            });
           });
-        });
-      });
+
+          reg.addEventListener('controllerchange', () => {
+            window.location.reload();
+          });
+        } catch (e) {
+          console.warn('SW registration failed:', e);
+        }
+      })();
     }
   </script>
+
+  <div id="update-toast" style="display:none">
+    <span>🔄 Nova versão disponível</span>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-sm btn-primary" id="btn-atualizar-agora">Atualizar</button>
+      <button class="btn btn-sm btn-secondary" id="btn-fechar-toast">✕</button>
+    </div>
+  </div>
 </body>
 </html>
