@@ -286,6 +286,17 @@ html, body {
 
 .form-row .form-group {
   flex: 1;
+  min-width: 0;
+}
+.form-row .form-group label {
+  display: block;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: .75rem;
 }
 
 /* ========== EXERCÍCIOS ========== */
