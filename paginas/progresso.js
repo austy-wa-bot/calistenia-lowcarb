@@ -1,3 +1,21 @@
+const TEMPO_PARADO_LABELS = {
+  'nunca': 'Nunca parei — treino regularmente',
+  'menos-1-mes': 'Menos de 1 mês parado',
+  '1-3-meses': '1 a 3 meses parado',
+  '3-6-meses': '3 a 6 meses parado',
+  'mais-6-meses': 'Mais de 6 meses parado',
+};
+
+const CONDICOES_LABELS = {
+  'nenhuma': 'Nenhuma',
+  'joelho': 'Joelho',
+  'coluna': 'Coluna / Costas',
+  'ombro': 'Ombro',
+  'punho': 'Punho',
+  'cardiaco': 'Cardíaco',
+  'hernia': 'Hérnia de disco',
+};
+
 function renderProgresso() {
   const treinos = AppState.get('treinos') || [];
   const perfil = AppState.get('perfil') || {};
@@ -71,6 +89,30 @@ function renderProgresso() {
           <button class="btn btn-green btn-sm" id="registrar-peso" ${!perfil.peso ? 'disabled style="opacity:.5"' : ''}>📝 Registrar Peso Hoje</button>
         </div>
       </div>
+
+      ${(() => {
+        const tempoParado = perfil.tempoParado;
+        const condicoes = perfil.condicoes || [];
+        const outraCondicao = perfil.outraCondicao || '';
+        const sonoMeta = AppState.get('onboardSonoMeta');
+        const itens = [];
+        if (tempoParado && TEMPO_PARADO_LABELS[tempoParado]) itens.push({ icon: '📅', label: 'Tempo parado', valor: TEMPO_PARADO_LABELS[tempoParado] });
+        if (condicoes.length > 0 && !condicoes.includes('nenhuma')) itens.push({ icon: '🩺', label: 'Condições', valor: condicoes.map(c => CONDICOES_LABELS[c] || c).join(', ') });
+        if (outraCondicao) itens.push({ icon: '📝', label: 'Outra condição', valor: outraCondicao });
+        if (sonoMeta) itens.push({ icon: '😴', label: 'Meta deitar', valor: sonoMeta });
+        if (itens.length === 0) return '';
+        return `
+          <div class="card">
+            <div class="card-title">📋 Dados do Onboarding</div>
+            ${itens.map(item => `
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.82rem">
+                <span style="color:var(--text-dim)">${item.icon} ${item.label}</span>
+                <span style="font-weight:500;text-align:right;margin-left:12px">${item.valor}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      })()}
 
       ${imc ? `
       <div class="card">

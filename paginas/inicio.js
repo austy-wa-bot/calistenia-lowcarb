@@ -101,7 +101,7 @@ function renderInicio() {
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div>
-            <div style="font-size:.85rem;color:var(--text-dim)">Hoje (meta: deitar até 22h)</div>
+            <div style="font-size:.85rem;color:var(--text-dim)">Hoje (meta: deitar até ${AppState.get('onboardSonoMeta') || '22:00'})</div>
             <div style="font-size:1.1rem;font-weight:600;color:${sonoHoje ? 'var(--green)' : 'var(--text-dim)'}">${sonoHoje ? '✅ Registrado' : '⏳ Pendente'}</div>
           </div>
           <button class="btn ${sonoHoje ? 'btn-green' : 'btn-secondary'} btn-sm" id="toggle-sono-hoje">${sonoHoje ? '✓' : 'Marcar'}</button>
